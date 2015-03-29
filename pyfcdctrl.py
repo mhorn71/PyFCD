@@ -1355,7 +1355,7 @@ class PyFcdCtrl(object):
         except IOError as e:
             raise Exception("IOError " + str(e))
         else:
-            if x[0] == 162 and x[1] == 1:
+            if x[0] == 109 and x[1] == 1:
                 rphase = x[2:4]
                 rgain = x[4:6]
 
@@ -1378,7 +1378,7 @@ class PyFcdCtrl(object):
         except IOError as e:
             raise Exception("IOError " + str(e))
         else:
-            if x[0] == 162 and x[1] == 1:
+            if x[0] == 107 and x[1] == 1:
                 ri = x[2:4]
                 rq = x[4:6]
 
@@ -1386,6 +1386,51 @@ class PyFcdCtrl(object):
                 q = '{:.5f}'.format(struct.unpack('h', ''.join(rq))[0] / 32768.0)
 
                 return i, q
+            else:
+                raise Exception("Funcube response not recognised!!")
+
+    def get_rssi(self):
+        """
+        returns an int -35dBm ~=0, -10dBm ~=70.
+        """
+        try:
+            d = hid.device(self.vendorid, self.productid)
+            d.write([0, 104])
+            x = d.read(65)
+            d.close()
+        except IOError as e:
+            raise Exception("IOError " + str(e))
+        else:
+            if x[0] == 104 and x[1] == 1:
+                rssir = chr(x[2])
+
+                rssi = struct.unpack('B', rssir)[0]
+
+                return rssi
+            else:
+                raise Exception("Funcube response not recognised!!")
+
+    def get_pll(self):
+        """
+            returns True if false and False if true.
+        """
+        try:
+            d = hid.device(self.vendorid, self.productid)
+            d.write([0, 105])
+            x = d.read(65)
+            d.close()
+        except IOError as e:
+            raise Exception("IOError " + str(e))
+        else:
+            if x[0] == 105 and x[1] == 1:
+                pllr = x[2]
+
+                if pllr == 1:
+                    return True
+                elif pllr == 0:
+                    return False
+                else:
+                    raise Exception("Funcube response not recognised!!")
             else:
                 raise Exception("Funcube response not recognised!!")
 
