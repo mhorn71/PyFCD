@@ -1461,7 +1461,7 @@ class PyFcdCtrl(object):
             raise Exception("IOError" + str(e))
         else:
             if x[0] == 1 and x[1] == 1:
-                return version[1]
+                return version[0]
             else:
                 raise Exception("Malformed Response!!")
 
