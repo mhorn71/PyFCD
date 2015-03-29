@@ -713,7 +713,7 @@ class PyFcdCtrl(object):
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 108,]) + map(ord, struct.pack('h', (phase * 32768.0))) + \
-            map(ord, struct.pack('h', (gain * 32768.0)))
+            map(ord, struct.pack('H', (gain * 32768.0)))
             x = d.read(65)
             d.close()
         except IOError as e:
@@ -998,10 +998,10 @@ class PyFcdCtrl(object):
         elif band == 'LBAND':
             enum = band3
         else:
-            raise Exception("Funcube response not recognised!!")
+            raise Exception("Malformed Response!!")
 
         if enum is None:
-            raise Exception("Funcube response not recognised!!")
+            raise Exception("Malformed Response!!")
         else:
             try:
                 d = hid.device(self.vendorid, self.productid)
@@ -1014,7 +1014,7 @@ class PyFcdCtrl(object):
                 if x[0] == 153 and x[1] == 1:
                     return enum[x[2]]
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
 
 
     def get_mixer_gain(self):
@@ -1037,9 +1037,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 1:
                     return '+12.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_bias_current(self):
         """
@@ -1065,9 +1065,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 3:
                     return 'VUBAND'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_mixer_filter(self):
         """
@@ -1103,9 +1103,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 15:
                     return '1.9'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_1(self):
         """
@@ -1127,9 +1127,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 1:
                     return '+6.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_2(self):
         """
@@ -1155,9 +1155,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 3:
                     return '+9.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_3(self):
         """
@@ -1183,9 +1183,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 3:
                     return '+9.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_4(self):
         """
@@ -1209,9 +1209,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 2:
                     return '+2.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_5(self):
         """
@@ -1239,9 +1239,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 4:
                     return '+15.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_6(self):
         """
@@ -1269,9 +1269,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 4:
                     return '+15.0'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_gain_mode(self):
         """
@@ -1293,9 +1293,9 @@ class PyFcdCtrl(object):
                 elif x[2] == 1:
                     return 'sen'
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_rc_filter(self):
         """
@@ -1316,7 +1316,7 @@ class PyFcdCtrl(object):
             if x[0] == 169 and x[1] == 1:
                 return rcfilter[x[2]]
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_if_filter(self):
         """
@@ -1341,7 +1341,7 @@ class PyFcdCtrl(object):
             if x[0] == 162 and x[1] == 1:
                 return _filter[x[2]]
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_iq(self):
         """
@@ -1357,21 +1357,21 @@ class PyFcdCtrl(object):
         else:
             if x[0] == 109 and x[1] == 1:
 
-                rphasechr = [chr(x[2]), chr(x[3])]
+                rphasechr = ''.join([chr(x[2]), chr(x[3])])
 
-                rgainchr = [chr(x[4]), chr(x[5])]
+                rgainchr = ''.join([chr(x[4]), chr(x[5])])
 
-                phase = '{:.5f}'.format(struct.unpack('h', ''.join(rphasechr))[0] / 32768.0)
-                gain = '{:.5f}'.format(struct.unpack('h', ''.join(rgainchr))[0] / 32768.0)
+                phase = '{:.5f}'.format(struct.unpack('h', rphasechr)[0] / 32768.0)
+                gain = '{:.5f}'.format(struct.unpack('H', rgainchr)[0] / 32768.0)
 
                 return phase, gain
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_dc(self):
         """
-            Returns I DC correction followed by Q DC correction
-        """
+            Returns DC I correction followed by DC Q correction as float tuple.
+       """
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 107])
@@ -1382,16 +1382,16 @@ class PyFcdCtrl(object):
         else:
             if x[0] == 107 and x[1] == 1:
 
-                richr = [chr(x[2]), chr(x[3])]
+                richr = ''.join([chr(x[2]), chr(x[3])])
 
-                rqchr = [chr(x[4]), chr(x[5])]
+                rqchr = ''.join([chr(x[4]), chr(x[5])])
 
-                i = '{:.5f}'.format(struct.unpack('h', ''.join(richr))[0] / 32768.0)
-                q = '{:.5f}'.format(struct.unpack('h', ''.join(rqchr))[0] / 32768.0)
+                i = '{:.5f}'.format(struct.unpack('h', richr)[0] / 32768.0)
+                q = '{:.5f}'.format(struct.unpack('h', rqchr)[0] / 32768.0)
 
                 return i, q
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_rssi(self):
         """
@@ -1412,7 +1412,7 @@ class PyFcdCtrl(object):
 
                 return rssi
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_pll(self):
         """
@@ -1434,24 +1434,21 @@ class PyFcdCtrl(object):
                 elif pllr == 0:
                     return False
                 else:
-                    raise Exception("Funcube response not recognised!!")
+                    raise Exception("Malformed Response!!")
             else:
-                raise Exception("Funcube response not recognised!!")
+                raise Exception("Malformed Response!!")
 
     def get_mode(self):
         """
-            gets the mode of the Funcube FCDAPP or FCDBL
-        """
-        pass
-
-    def get_firmware_version(self):
-        """
-            Returns the current firmware version as a string.
+            Returns the current mode as FCDAPP or FCDBL
         """
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 1])
-            xx = d.read(65)[2:16]
+            x = d.read(65)
+
+            xx = x[2:16]
+
             verstring = []
             for i in xx:
                 verstring.append(chr(i))  # Convert return data into chars and append to list
@@ -1463,7 +1460,37 @@ class PyFcdCtrl(object):
         except IOError as e:
             raise Exception("IOError" + str(e))
         else:
-            return version[1]
+            if x[0] == 1 and x[1] == 1:
+                return version[1]
+            else:
+                raise Exception("Malformed Response!!")
+
+    def get_firmware_version(self):
+        """
+            Returns the current firmware version as a string.
+        """
+        try:
+            d = hid.device(self.vendorid, self.productid)
+            d.write([0, 1])
+            x = d.read(65)
+
+            xx = x[2:16]
+
+            verstring = []
+            for i in xx:
+                verstring.append(chr(i))  # Convert return data into chars and append to list
+
+            charsv = ''.join(verstring)  # join the list together this will be in format of FCDAPP / FCDBL xx.xx B..
+            ##  Next we need to create a new list from all the joined chars in version.
+            version = charsv.split()
+            d.close()
+        except IOError as e:
+            raise Exception("IOError" + str(e))
+        else:
+            if x[0] == 1 and x[1] == 1:
+                return version[1]
+            else:
+                raise Exception("Malformed Response!!")
 
 
 
