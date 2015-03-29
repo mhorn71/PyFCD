@@ -19,11 +19,6 @@ class PyFcdCtrl(object):
 
         self.vendorid = 0x04d8
         self.productid = 0xfb56
-        self.lna_gain = 4
-        self.mixer_gain = 0
-        self.if_gain = 4
-        self.init_freq = 64000000
-        self.ppm_offset = -120
 
     def set_khz(self, freq, ppm_offset):
 
@@ -1507,7 +1502,7 @@ class PyFcdCtrl(object):
             'FCDAPP 18.10 Brd 1.0 No blk' or 'FCDBL'
         """
         try:
-            d = hid.device(0x04d8, 0xfb56)
+            d = hid.device(self.vendorid, self.productid)
             d.write([0,1])
             x = d.read(65)[0:32]
             d.close()
