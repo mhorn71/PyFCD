@@ -694,9 +694,46 @@ class PyFcdCtrl(object):
                 return False
 
     def set_mode(self, mode):
-        """ Sets the mode of the Funcube FCDAPP or FCDBL
         """
-        pass
+            Where mode is a string consisting of :
+
+            FCDAPP (Application) or FCDBL (Bootloader)
+
+            returns True or False
+        """
+
+        if mode == 'FCDAPP':
+            try:
+                d = hid.device(self.vendorid, self.productid)
+                d.write([0, 8])
+                x = d.read(65)
+                d.close()
+            except IOError as e:
+                raise Exception('IOError' + str(e))
+            else:
+                if x[0] == 8 and x[1] == 1:
+                    return True
+                else:
+                    return False
+
+        elif mode == 'FCDAPP':
+
+            try:
+                d = hid.device(self.vendorid, self.productid)
+                d.write([0, 255])
+                x = d.read(65)
+                d.close()
+            except IOError as e:
+                raise Exception('IOError' + str(e))
+            else:
+                if x[0] == 255 and x[1] == 1:
+                    return True
+                else:
+                    return False
+
+        else:
+            raise Exception('Malformed mode string')
+
 
     def firmware(self, mode):
         """ Upload or Verify Firmware
@@ -1462,6 +1499,32 @@ class PyFcdCtrl(object):
                 return version[0]
             else:
                 raise Exception("Malformed Response!!")
+
+    def get_bootloader_query(self):
+        """
+            Returns the bootload query string.
+
+            'FCDAPP 18.10 Brd 1.0 No blk' or 'FCDBL'
+        """
+        try:
+            d = hid.device(0x04d8, 0xfb56)
+            d.write([0,1])
+            x = d.read(65)[0:32]
+            d.close()
+        except IOError as e:
+            raise Exception("IOError" + str(e))
+        else:
+            if x[0] == 1 and x[1] == 1:
+                verstring = []
+                for i in x[1:32]:
+                    verstring.append(chr(i))  ## Convert return data into chars and append to list
+
+                charsv = ''.join(verstring).strip('\x00')  ## join the list together this will be in format of FCDAPP / FCDBL xx.xx B..
+
+                return charsv
+            else:
+                raise Exception("Malformed Response. Maybe no FCD or firmware less than 18f??")
+
 
     def get_firmware_version(self):
         """
