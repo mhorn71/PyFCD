@@ -1357,10 +1357,13 @@ class PyFcdCtrl(object):
         else:
             if x[0] == 109 and x[1] == 1:
                 rphase = x[2:4]
-                rgain = x[4:6]
+                rphasechr = [chr(rphase[0]),chr(rphase[1])]
 
-                phase = '{:.5f}'.format(struct.unpack('h', ''.join(rphase))[0] / 32768.0)
-                gain = '{:.5f}'.format(struct.unpack('h', ''.join(rgain))[0] / 32768.0)
+                rgain = x[4:6]
+                rgainchr = [chr(rgain[0]),chr(rgain[1])]
+
+                phase = '{:.5f}'.format(struct.unpack('h', ''.join(rphasechr))[0] / 32768.0)
+                gain = '{:.5f}'.format(struct.unpack('h', ''.join(rgainchr))[0] / 32768.0)
 
                 return phase, gain
             else:
@@ -1380,10 +1383,13 @@ class PyFcdCtrl(object):
         else:
             if x[0] == 107 and x[1] == 1:
                 ri = x[2:4]
-                rq = x[4:6]
+                richr = [chr(ri[0]),chr(ri[1])]
 
-                i = '{:.5f}'.format(struct.unpack('h', ''.join(ri))[0] / 32768.0)
-                q = '{:.5f}'.format(struct.unpack('h', ''.join(rq))[0] / 32768.0)
+                rq = x[4:6]
+                rqchr = [chr(rq[0]),chr(rq[1])]
+
+                i = '{:.5f}'.format(struct.unpack('h', ''.join(richr))[0] / 32768.0)
+                q = '{:.5f}'.format(struct.unpack('h', ''.join(rqchr))[0] / 32768.0)
 
                 return i, q
             else:
@@ -1391,7 +1397,7 @@ class PyFcdCtrl(object):
 
     def get_rssi(self):
         """
-        returns an int -35dBm ~=0, -10dBm ~=70.
+        Returns an int -35dBm ~=0, -10dBm ~=70.
         """
         try:
             d = hid.device(self.vendorid, self.productid)
@@ -1412,7 +1418,7 @@ class PyFcdCtrl(object):
 
     def get_pll(self):
         """
-            returns True if false and False if true.
+            Returns True if false and False if true.
         """
         try:
             d = hid.device(self.vendorid, self.productid)
