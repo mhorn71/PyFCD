@@ -709,7 +709,6 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
-
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 108,]) + map(ord, struct.pack('h', (phase * 32768.0))) + \
@@ -730,7 +729,6 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
-
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 106,]) + map(ord, struct.pack('h', (i * 32768.0))) + \
