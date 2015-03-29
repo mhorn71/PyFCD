@@ -1356,11 +1356,10 @@ class PyFcdCtrl(object):
             raise Exception("IOError " + str(e))
         else:
             if x[0] == 109 and x[1] == 1:
-                rphase = x[2:4]
-                rphasechr = [chr(rphase[0]),chr(rphase[1])]
 
-                rgain = x[4:6]
-                rgainchr = [chr(rgain[0]),chr(rgain[1])]
+                rphasechr = [chr(x[2]), chr(x[3])]
+
+                rgainchr = [chr(x[4]), chr(x[5])]
 
                 phase = '{:.5f}'.format(struct.unpack('h', ''.join(rphasechr))[0] / 32768.0)
                 gain = '{:.5f}'.format(struct.unpack('h', ''.join(rgainchr))[0] / 32768.0)
@@ -1382,11 +1381,10 @@ class PyFcdCtrl(object):
             raise Exception("IOError " + str(e))
         else:
             if x[0] == 107 and x[1] == 1:
-                ri = x[2:4]
-                richr = [chr(ri[0]),chr(ri[1])]
 
-                rq = x[4:6]
-                rqchr = [chr(rq[0]),chr(rq[1])]
+                richr = [chr(x[2]), chr(x[3])]
+
+                rqchr = [chr(x[4]), chr(x[5])]
 
                 i = '{:.5f}'.format(struct.unpack('h', ''.join(richr))[0] / 32768.0)
                 q = '{:.5f}'.format(struct.unpack('h', ''.join(rqchr))[0] / 32768.0)
