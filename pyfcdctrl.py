@@ -1446,7 +1446,7 @@ class PyFcdCtrl(object):
 
     def get_pll(self):
         """
-            Returns True if false and False if true.
+            Returns True if locked and False if unlocked.
         """
         try:
             d = hid.device(self.vendorid, self.productid)
