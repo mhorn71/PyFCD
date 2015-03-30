@@ -781,7 +781,7 @@ class PyFcdCtrl(object):
 
             Frequency : 144430000   (GB3VHF 2m Beacon)
             ppm : -120
-            LNA Gain : +12.0db
+            LNA Gain : +12.5db
             Mixer Gain : +12.0db
             RF Filter : 268MHz LPF
             Mixer Filter : 1.9MHz
@@ -1337,13 +1337,13 @@ class PyFcdCtrl(object):
                     '1.8', '1.2', '1.0']
         try:
             d = hid.device(self.vendorid, self.productid)
-            d.write([0, 169])
+            d.write([0, 159])
             x = d.read(65)
             d.close()
         except IOError as e:
             raise Exception("IOError " + str(e))
         else:
-            if x[0] == 169 and x[1] == 1:
+            if x[0] == 159 and x[1] == 1:
                 return rcfilter[x[2]]
             else:
                 raise Exception("Malformed Response!!")
@@ -1547,10 +1547,3 @@ class PyFcdCtrl(object):
                 return version[1]
             else:
                 raise Exception("Malformed Response!!")
-
-
-
-
-
-
-
