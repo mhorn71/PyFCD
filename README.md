@@ -33,12 +33,12 @@ freq = 140000000
 
 try:
     if mydevice.set_hz(freq, ppm_offset):
-        print('set frequency = %s' % str(freq))
+        print('set frequency = %s' % str(freq))  ## Set the frequency.
 except Exception as e:
     print('failed to set frequency')
 
 try:
-    freq = mydevice.get_hz()
+    freq = mydevice.get_hz()  ## Get the frequency as reported by the FCD Pro.
 except Exception as e:
     print('failed to get frequency')
 else:
