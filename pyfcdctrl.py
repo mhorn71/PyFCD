@@ -1,19 +1,39 @@
 __author__ = 'mark'
+#####################################################################################################
+#  This file is part of pyfcdctrl. (Funcube Dongle Pro Command Line Control Interface)
+#
+#  Copyright (C) 2015  Mark Horn
+#
+#  This class is based Qthid by Howard Long, G6LVB, Alexandru Csete, OZ9AEC, and Mario Lorenz, DL5MLO
+#
+#  pyfcdctrl is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  pyfcdctrl is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with pyfcdctrl.  If not, see <http://www.gnu.org/licenses/>.
+#
+#####################################################################################################
 
-## Note for hid to work you need to install cython from repos and cython-hidapi from https://github.com/bazuchan
+
+## Note for hid without segmentation fault you will need to install cython from repos
+## and cython-hidapi from https://github.com/bazuchan
 
 import hid
 import struct
 import re
 
-##  Funcube Dongle Pro Command Line Control Interface.
-##  This class is based upon work by X X X X X
-##
 
 
 class PyFcdCtrl(object):
     def __init__(self):
-        """ 
+        """
             All Errors raise Exception """
 
         self.vendorid = 0x04d8
