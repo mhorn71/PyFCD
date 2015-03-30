@@ -743,8 +743,8 @@ class PyFcdCtrl(object):
         """
         try:
             d = hid.device(self.vendorid, self.productid)
-            d.write([0, 108,]) + map(ord, struct.pack('h', (phase * 32768.0))) + \
-            map(ord, struct.pack('H', (gain * 32768.0)))
+            n = [0, 108] + map(ord, struct.pack('h', phase)) + map(ord, struct.pack('H', (gain * 32768.0)))
+            d.write(n)
             x = d.read(65)
             d.close()
         except IOError as e:
@@ -763,8 +763,8 @@ class PyFcdCtrl(object):
         """
         try:
             d = hid.device(self.vendorid, self.productid)
-            d.write([0, 106,]) + map(ord, struct.pack('h', (i * 32768.0))) + \
-            map(ord, struct.pack('h', (q * 32768.0)))
+            n = [0, 106] + map(ord, struct.pack('h', i)) + map(ord, struct.pack('h', (q * 32768.0)))
+            d.write(n)
             x = d.read(65)
             d.close()
         except IOError as e:
