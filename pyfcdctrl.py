@@ -526,7 +526,7 @@ class PyFcdCtrl(object):
 
     def set_if_filter(self, if_filter):
         """
-            Where bias is a string consisting of:
+            Where if_filter is a string consisting of:
 
             5.50, 5.30, 5.00, 4.80, 4.60, 4.40, 4.30, 4.10, 3.90, 3.80, 3.70, 3.60, 3.40, 3.30, 3.20, 3.10, 3.00
             2.95, 2.90, 2.80, 2.75, 2.70, 2.60, 2.55, 2.50, 2.45, 2.40, 2.30, 2.28, 2.24, 2.20, 2.15
