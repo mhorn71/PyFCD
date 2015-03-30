@@ -873,7 +873,7 @@ class PyFcdCtrl(object):
         """
         try:
             d = hid.device(self.vendorid, self.productid)
-            d.write([0, 1, 101])
+            d.write([0, 101])
             x = d.read(65)[0:6]
             d.close()
         except IOError as e:
