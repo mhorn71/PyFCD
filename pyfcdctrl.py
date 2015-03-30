@@ -7,14 +7,13 @@ import struct
 import re
 
 ##  Funcube Dongle Pro Command Line Control Interface.
-##  This library is based upon work by X X X X X
+##  This class is based upon work by X X X X X
 ##
 
 
 class PyFcdCtrl(object):
     def __init__(self):
-        """ Set some default settings to start with lna_gain, mixer_gain, if_gain, init_frequency and ppm_offset
-
+        """ 
             All Errors raise Exception """
 
         self.vendorid = 0x04d8
@@ -732,6 +731,8 @@ class PyFcdCtrl(object):
 
     def firmware(self, mode):
         """ Upload or Verify Firmware
+
+            TO BE WRITTEN ONCE I UNDERSTAND HOW TO. :-)
         """
         pass
 
