@@ -12,9 +12,11 @@ You need to install cython and cython-hidapi and get the latter from https://git
 
 NOTE: cython-hidapi from the raspbian repos causes segmentation fault the above version doesn't.
 
-NOTE NOTE ::  The RaspberryPi Raspbain USB sometimes locks up, if you call methods concurrently without added time delay.
+NOTE NOTE ::  The RaspberryPi Raspbain USB sometimes locks up, if you call methods concurrently without adding a time delay.
 
-copy pyfcdctrl.py to your programs root folder and import it in your program.
+This has been tested on a RaspberryPi B and Pi2 with Raspbian, as well as Debian on the Beaglebone Black Rev C.
+
+Copy pyfcdctrl.py to your programs root folder and import it in your program.
 
 ##  Example Program
 
