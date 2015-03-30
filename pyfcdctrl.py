@@ -879,7 +879,7 @@ class PyFcdCtrl(object):
         except IOError as e:
             raise Exception(e)
         else:
-            if x[0] == 101 and x[1] == 1:
+            if x[0] == 102 and x[1] == 1:
                 xn = re.sub('[(),]', '', str(struct.unpack('<I', ''.join(map(chr, x[2:6])))))
                 return xn
             else:
