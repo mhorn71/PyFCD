@@ -18,6 +18,8 @@ copy pyfcdctrl.py to your programs root folder and import it in your program.
 
 ##  Example Program
 
+'''
+
 import pyfcdctrl as fcd
 
 mydevice = fcd.PyFcdCtrl()
@@ -42,3 +44,4 @@ except Exception as e:
     print('failed to get frequency')
 else:
     print('Frequency = %s' % str(freq)
+'''
