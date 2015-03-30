@@ -378,7 +378,7 @@ class PyFcdCtrl(object):
         except IOError as e:
             raise Exception(e)
         else:
-            if x[0] == 101 and x[1] == 1:
+            if x[0] == 110 and x[1] == 1:
                 return True
             else:
                 return False
