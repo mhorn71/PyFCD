@@ -1511,7 +1511,7 @@ class PyFcdCtrl(object):
         else:
             if x[0] == 1 and x[1] == 1:
                 verstring = []
-                for i in x[1:32]:
+                for i in x[2:32]:
                     verstring.append(chr(i))  ## Convert return data into chars and append to list
 
                 charsv = ''.join(verstring).strip('\x00')  ## join the list together this will be in format of FCDAPP / FCDBL xx.xx B..
