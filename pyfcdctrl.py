@@ -341,31 +341,31 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
-        if re.match('^\-5.0$', lna_gain):
+        if re.match('^\-5\.0$', lna_gain):
             gainenum = 0
-        elif re.match('^\-2.5$', lna_gain):
+        elif re.match('^\-2\.5$', lna_gain):
             gainenum = 1
-        elif re.match('^\+0.0$', lna_gain):
+        elif re.match('^\+0\.0$', lna_gain):
             gainenum = 4
-        elif re.match('^\+2.5$', lna_gain):
+        elif re.match('^\+2\.5$', lna_gain):
             gainenum = 6
-        elif re.match('^\+5.0$', lna_gain):
+        elif re.match('^\+5\.0$', lna_gain):
             gainenum = 7
-        elif re.match('^\+7.5$', lna_gain):
+        elif re.match('^\+7\.5$', lna_gain):
             gainenum = 8
-        elif re.match('^\+10.0$', lna_gain):
+        elif re.match('^\+10\.0$', lna_gain):
             gainenum = 9
-        elif re.match('^\+12.5$', lna_gain):
+        elif re.match('^\+12\.5$', lna_gain):
             gainenum = 10
-        elif re.match('^\+15.0$', lna_gain):
+        elif re.match('^\+15\.0$', lna_gain):
             gainenum = 11
-        elif re.match('^\+17.5$', lna_gain):
+        elif re.match('^\+17\.5$', lna_gain):
             gainenum = 12
-        elif re.match('^\+20.0$', lna_gain):
+        elif re.match('^\+20\.0$', lna_gain):
             gainenum = 13
-        elif re.match('^\+25.0$', lna_gain):
+        elif re.match('^\+25\.0$', lna_gain):
             gainenum = 14
-        elif re.match('^\+30.0$', lna_gain):
+        elif re.match('^\+30\.0$', lna_gain):
             gainenum = 15
         else:
             raise Exception('LNA Gain string mismatch!!')
@@ -807,7 +807,7 @@ class PyFcdCtrl(object):
         if self.set_hz(144430000, -120) is not True:
             raise Exception('Unable to set defaults (Frequency)!')
 
-        if self.set_lna_gain('+12.0') is not True:
+        if self.set_lna_gain('+12.5') is not True:
             raise Exception('Unable to set defaults (LNA Gain)!')
 
         if self.set_mixer_gain('+12.0') is not True:
