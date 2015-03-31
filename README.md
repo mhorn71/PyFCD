@@ -34,8 +34,8 @@ ppm_offset = 0
 freq = 140000000
 
 try:
-    if mydevice.set_hz(freq, ppm_offset):
-        print('set frequency = %s' % str(freq))  ## Set the frequency.
+    if mydevice.set_hz(freq, ppm_offset): ## Set the frequency.
+        print('set frequency = %s' % str(freq))
 except Exception as e:
     print('failed to set frequency')
 

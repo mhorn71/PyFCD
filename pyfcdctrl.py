@@ -1521,6 +1521,9 @@ class PyFcdCtrl(object):
             Returns the bootload query string.
 
             'FCDAPP 18.10 Brd 1.0 No blk' or 'FCDBL'
+
+            Where 1.0 means no bias tee, 1.1 means there is a bias tee, 'NoBlk' means it's not cellular blocked.
+            See https://uk.groups.yahoo.com/neo/groups/FCDevelopment/conversations/topics/303
         """
         try:
             d = hid.device(self.vendorid, self.productid)
