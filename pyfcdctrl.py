@@ -40,15 +40,19 @@ class PyFcdCtrl(object):
 
             All Errors raise Exception """
 
+
+
         if funcube == 'pro':
             self.vendorid = 0x04d8
             self.productid = 0xfb56
+            self.proplus = False
         elif funcube == 'proplus':
             self.vendorid = 0x04d8
             self.productid = 0xfb31
             self.proplus = True
         else:
             raise Exception('unknown dongle type')
+
 
     def set_khz(self, freq, ppm_offset):
 
@@ -64,11 +68,11 @@ class PyFcdCtrl(object):
 
         nfreq = hex(int(freq))
 
-        _bytes = [hex(int(nfreq, 16) >> i & 0xff) for i in (16,8,0)]  ## convert frequency into 3 bytes
+        _bytes = [hex(int(nfreq, 16) >> i & 0xff) for i in (0,8,16)]  ## convert frequency into 3 bytes
 
         lbytechars = []
 
-        for i in reversed(_bytes):  # Reverse order bytes for little endian.
+        for i in _bytes:  # Reverse order bytes for little endian.
             lbytechars.append(chr(int(i, 16)))
 
         try:
