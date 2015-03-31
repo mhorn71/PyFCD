@@ -2,9 +2,9 @@
 
 Python FCD Interface.
 
-For testing I've tested it and it works for. :-)
+I've tested it and it works for me. :-)
 
-Implements full Funcube Dongle Pro api excluding 'Firmware Update and Verify.'
+Implements the full Funcube Dongle Pro api excluding 'Firmware Update and Verify.'
 
 To use:
 
