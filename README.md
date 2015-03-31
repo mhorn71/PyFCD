@@ -23,7 +23,7 @@ Copy pyfcdctrl.py to your programs root folder and import it in your program.
 ```python
 import pyfcdctrl as fcd
 
-mydevice = fcd.PyFcdCtrl(0x04d8,0xfb56)   # Where 0x4d8 is vendorid and 0xfb56 is productid (FCD Pro in this case)
+mydevice = fcd.PyFcdCtrl('pro')   # proplus not yet implemented.
 
 try:
     mydevice.defaults() ## sets defaults

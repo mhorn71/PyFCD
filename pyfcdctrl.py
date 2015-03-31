@@ -32,12 +32,23 @@ import re
 
 
 class PyFcdCtrl(object):
-    def __init__(self, vendorid, productid):
+    def __init__(self, funcube):
         """
+            Where funcube is a string consisting of :
+
+            pro or proplus
+
             All Errors raise Exception """
 
-        self.vendorid = vendorid
-        self.productid = productid
+        if funcube == 'pro':
+            self.vendorid = 0x04d8
+            self.productid = 0xfb56
+        elif funcube == 'proplus':
+            self.vendorid = 0x04d8
+            self.productid = 0xfb31
+            self.proplus = True
+        else:
+            raise Exception('unknown dongle type')
 
     def set_khz(self, freq, ppm_offset):
 
@@ -956,8 +967,6 @@ class PyFcdCtrl(object):
             raise Exception('IOError ' + str(e))
         else:
             return True
-
-
 
     ####################
     ### Get Commands ###
