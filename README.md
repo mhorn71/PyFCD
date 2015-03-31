@@ -10,7 +10,7 @@ To use:
 
 You need to install cython and cython-hidapi and get the latter from https://github.com/bazuchan
 
-NOTE: cython-hidapi from the raspbian repos causes segmentation fault the above version doesn't.
+NOTE: cython-hidapi from the raspbian repos causes a segmentation fault on exit whereas the version above doesn't.
 
 NOTE NOTE ::  The RaspberryPi Raspbain USB sometimes locks up, if you call methods concurrently without adding a time delay.
 
