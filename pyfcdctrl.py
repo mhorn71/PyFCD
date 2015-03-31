@@ -68,11 +68,11 @@ class PyFcdCtrl(object):
 
         nfreq = hex(int(freq))
 
-        _bytes = [hex(int(nfreq, 16) >> i & 0xff) for i in (0,8,16)]  ## convert frequency into 3 bytes
+        _bytes = [hex(int(nfreq, 16) >> i & 0xff) for i in (0,8,16)]  # convert frequency into 3 bytes little endian
 
         lbytechars = []
 
-        for i in _bytes:  # Reverse order bytes for little endian.
+        for i in _bytes:
             lbytechars.append(chr(int(i, 16)))
 
         try:
