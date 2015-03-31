@@ -796,6 +796,63 @@ class PyFcdCtrl(object):
             else:
                 return False
 
+    def set_bias(self, cond):
+        """
+        Where cond is a string consisting of :
+
+        enabled or disabled
+
+        Returns True if Bias T enabled.
+
+        NOTE : Requires firmware 18h
+
+        From http://www.funcubedongle.com/?page_id=74
+
+        The bias T is 5V and should comfortably deal with up to 100mA.
+        There is a protection circuit in there which will trip if it sees a DC short when switched on based on a
+        PTC resettable fuse, Tyco part number FEMTOSMDC016F-02, which trips at 400mA and has a hold current of 160mA
+        (although in tests I found the hold current to be a lot less, perhaps 60mA). The driving transistor is rated
+        at 1A.
+        """
+
+        try:
+            if self.get_mode() == 'FCDBL':
+                raise Exception('Funcube in bootloader mode!!')
+            else:
+                bl_query = self.get_bootloader_query().split()
+                if len(bl_query) > 4:
+                    if re.match('^1\.0$', str(bl_query[3])):
+                        raise Exception('Bias T not fitted - Wrong firmware version maybe?')
+                    elif re.match('^1\.1$', str(bl_query[3])):
+                        if cond == 'enabled':
+                            n =  [0, 126, 1]
+                        elif cond == 'disabled':
+                            n = [0, 126, 0]
+                        else:
+                            raise Exception('Set bias malformed parameter!!')
+
+                        d = hid.device(self.vendorid, self.productid)
+                        d.write(n)
+                        x = d.read(65)
+                        d.close()
+
+                        if x[0] == 126 and x[1] == 1:
+                            if x[2] == 1:
+                                return True
+                            elif x[2] == 0:
+                                return False
+                            else:
+                                raise Exception("Malformed Response!!")
+                        else:
+                            raise Exception("Malformed Response!!")
+                    else:
+                        raise Exception("Malformed Response!!")
+                else:
+                    raise Exception("Malformed Response!!")
+        except IOError as e:
+            raise Exception('IOError ' + str(e))
+
+
     def defaults(self):
         """
             Sets the following default parameters:
@@ -823,66 +880,81 @@ class PyFcdCtrl(object):
             DC Q : 0.00000
             Gain : 1.00000
             Phase: 0.00000
+            Bias : Disabled  #  Only applicable if firmware 18h or greater.
         """
 
-        if self.set_hz(144430000, -120) is not True:
-            raise Exception('Unable to set defaults (Frequency)!')
+        try:
+            if self.get_mode() == 'FCDBL':
+                raise Exception('Funcube in bootloader mode!!')
+            else:
+                if self.set_hz(144430000, -120) is not True:
+                    raise Exception('Unable to set defaults (Frequency)!')
 
-        if self.set_lna_gain('+12.5') is not True:
-            raise Exception('Unable to set defaults (LNA Gain)!')
+                if self.set_lna_gain('+12.5') is not True:
+                    raise Exception('Unable to set defaults (LNA Gain)!')
 
-        if self.set_mixer_gain('+12.0') is not True:
-            raise Exception('Unable to set defaults (Mixer Gain)!')
+                if self.set_mixer_gain('+12.0') is not True:
+                    raise Exception('Unable to set defaults (Mixer Gain)!')
 
-        if self.set_mixer_filter('1.9') is not True:
-            raise Exception('Unable to set defaults (Mixer Filter)!')
+                if self.set_mixer_filter('1.9') is not True:
+                    raise Exception('Unable to set defaults (Mixer Filter)!')
 
-        if self.set_rf_filter('LPF268MHz') is not True:
-            raise Exception('Unable to set defaults (RF Filter)!')
+                if self.set_rf_filter('LPF268MHz') is not True:
+                    raise Exception('Unable to set defaults (RF Filter)!')
 
-        if self.set_if_rc_filter('1.0') is not True:
-            raise Exception('Unable to set defaults (IF RC Filter)!')
+                if self.set_if_rc_filter('1.0') is not True:
+                    raise Exception('Unable to set defaults (IF RC Filter)!')
 
-        if self.set_if_filter('2.15') is not True:
-            raise Exception('Unable to set defaults (IF Filter)!')
+                if self.set_if_filter('2.15') is not True:
+                    raise Exception('Unable to set defaults (IF Filter)!')
 
-        if self.set_if_gain_1('+6.0') is not True:
-            raise Exception('Unable to set defaults (IF Gain One)!')
+                if self.set_if_gain_1('+6.0') is not True:
+                    raise Exception('Unable to set defaults (IF Gain One)!')
 
-        if self.set_if_gain_2('+0.0') is not True:
-            raise Exception('Unable to set defaults (IF Gain Two)!')
+                if self.set_if_gain_2('+0.0') is not True:
+                    raise Exception('Unable to set defaults (IF Gain Two)!')
 
-        if self.set_if_gain_3('+0.0') is not True:
-            raise Exception('Unable to set defaults (IF Gain Three)!')
+                if self.set_if_gain_3('+0.0') is not True:
+                    raise Exception('Unable to set defaults (IF Gain Three)!')
 
-        if self.set_if_gain_4('+0.0') is not True:
-            raise Exception('Unable to set defaults (IF Gain Four)!')
+                if self.set_if_gain_4('+0.0') is not True:
+                    raise Exception('Unable to set defaults (IF Gain Four)!')
 
-        if self.set_if_gain_5('+3.0') is not True:
-            raise Exception('Unable to set defaults (IF Gain Four)!')
+                if self.set_if_gain_5('+3.0') is not True:
+                    raise Exception('Unable to set defaults (IF Gain Four)!')
 
-        if self.set_if_gain_6('+3.0') is not True:
-            raise Exception('Unable to set defaults (IF Gain Four)!')
+                if self.set_if_gain_6('+3.0') is not True:
+                    raise Exception('Unable to set defaults (IF Gain Four)!')
 
-        if self.set_lna_enhance('OFF') is not True:
-            raise Exception('Unable to set defaults (LNA Enhance)!')
+                if self.set_lna_enhance('OFF') is not True:
+                    raise Exception('Unable to set defaults (LNA Enhance)!')
 
-        if self.set_band('VHF2') is not True:
-            raise Exception('Unable to set defaults (LNA Enhance)!')
+                if self.set_band('VHF2') is not True:
+                    raise Exception('Unable to set defaults (LNA Enhance)!')
 
-        if self.set_bias_current('VUBAND') is not True:
-            raise Exception('Unable to set defaults (BIAS Current)!')
+                if self.set_bias_current('VUBAND') is not True:
+                    raise Exception('Unable to set defaults (BIAS Current)!')
 
-        if self.set_if_gain_mode('lin') is not True:
-            raise Exception('Unable to set defaults (IF Gain Mode)!')
+                if self.set_if_gain_mode('lin') is not True:
+                    raise Exception('Unable to set defaults (IF Gain Mode)!')
 
-        if self.set_iq(0.00000, 1.00000) is not True:
-            raise Exception('Unable to set defaults (I/Q Correction)!')
+                if self.set_iq(0.00000, 1.00000) is not True:
+                    raise Exception('Unable to set defaults (I/Q Correction)!')
 
-        if self.set_dc(0.00000, 0.00000) is not True:
-            raise Exception('Unable to set defaults (DC Correction)!')
+                if self.set_dc(0.00000, 0.00000) is not True:
+                    raise Exception('Unable to set defaults (DC Correction)!')
+
+                try:
+                    self.set_bias('disabled')
+                except Exception:
+                    pass
+
+        except IOError as e:
+            raise Exception('IOError ' + str(e))
         else:
             return True
+            
+
 
     ####################
     ### Get Commands ###
@@ -1571,3 +1643,48 @@ class PyFcdCtrl(object):
                 return version[1]
             else:
                 raise Exception("Malformed Response!!")
+
+    def get_bias(self):
+        """
+        Returns True if Bias T enabled or False
+
+        NOTE : Requires firmware 18h
+
+        From http://www.funcubedongle.com/?page_id=74
+
+        The bias T is 5V and should comfortably deal with up to 100mA.
+        There is a protection circuit in there which will trip if it sees a DC short when switched on based on a
+        PTC resettable fuse, Tyco part number FEMTOSMDC016F-02, which trips at 400mA and has a hold current of 160mA
+        (although in tests I found the hold current to be a lot less, perhaps 60mA). The driving transistor is rated
+        at 1A.
+        """
+
+        try:
+            if self.get_mode() == 'FCDBL':
+                raise Exception('Funcube in bootloader mode!!')
+            else:
+                bl_query = self.get_bootloader_query().split()
+                if len(bl_query) > 4:
+                    if re.match('^1\.0$', str(bl_query[3])):
+                        raise Exception('Bias T not fitted - Wrong firmware version maybe?')
+                    elif re.match('^1\.1$', str(bl_query[3])):
+                        d = hid.device(self.vendorid, self.productid)
+                        d.write([0, 166])
+                        x = d.read(65)
+                        d.close()
+                        if x[0] == 166 and x[1] == 1:
+                            if x[2] == 1:
+                                return True
+                            elif x[2] == 0:
+                                return False
+                            else:
+                                raise Exception("Malformed Response!!")
+                        else:
+                            raise Exception("Malformed Response!!")
+                    else:
+                        raise Exception("Malformed Response!!")
+                else:
+                    raise Exception("Malformed Response!!")
+        except IOError as e:
+            raise Exception('IOError ' + str(e))
+
