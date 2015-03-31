@@ -1,6 +1,6 @@
 __author__ = 'mark'
 #####################################################################################################
-#  This file is part of pyfcdctrl. (Funcube Dongle Pro Command Line Control Interface)
+#  This file is part of pyfcdctrl. (Funcube Dongle Pro & Pro Plus Command Line Control Interface)
 #
 #  Copyright (C) 2015  Mark Horn
 #
@@ -32,12 +32,12 @@ import re
 
 
 class PyFcdCtrl(object):
-    def __init__(self):
+    def __init__(self, vendorid, productid):
         """
             All Errors raise Exception """
 
-        self.vendorid = 0x04d8
-        self.productid = 0xfb56
+        self.vendorid = vendorid
+        self.productid = productid
 
     def set_khz(self, freq, ppm_offset):
 
@@ -953,7 +953,7 @@ class PyFcdCtrl(object):
             raise Exception('IOError ' + str(e))
         else:
             return True
-            
+
 
 
     ####################

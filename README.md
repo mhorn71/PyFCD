@@ -23,7 +23,7 @@ Copy pyfcdctrl.py to your programs root folder and import it in your program.
 ```python
 import pyfcdctrl as fcd
 
-mydevice = fcd.PyFcdCtrl()
+mydevice = fcd.PyFcdCtrl(0x04d8,0xfb56)
 
 try:
     mydevice.defaults() ## sets defaults
