@@ -860,7 +860,7 @@ class PyFcdCtrl(object):
 
         Returns True if Bias T enabled.
 
-        NOTE : Requires firmware 18h
+        NOTE : Requires firmware 18h or Pro+
 
         From http://www.funcubedongle.com/?page_id=74
 
@@ -1752,7 +1752,7 @@ class PyFcdCtrl(object):
         """
         Returns True if Bias T enabled or False
 
-        NOTE : Requires firmware 18h
+        NOTE : Requires firmware 18h or Pro+
 
         From http://www.funcubedongle.com/?page_id=74
 
