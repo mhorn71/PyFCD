@@ -49,9 +49,9 @@ class PyFcdCtrl(object):
             NOTE: There is no checking of whether or not the frequency being set is within range of the device.
         """
 
-        corrected_freq = freq + int((float(freq)/1000000.0)*float(ppm_offset))
+        freq *= 1.0 + ppm_offset / 1000000.0
 
-        nfreq = hex(corrected_freq)
+        nfreq = hex(int(freq))
 
         _bytes = [hex(int(nfreq, 16) >> i & 0xff) for i in (16,8,0)]  ## convert frequency into 3 bytes
 
@@ -84,11 +84,11 @@ class PyFcdCtrl(object):
             NOTE: There is no checking of whether or not the frequency being set is within range of the device.
         """
 
-        corrected_freq = freq + int((float(freq)/1000000.0)*float(ppm_offset))
+        freq *= 1.0 + ppm_offset / 1000000.0
 
         try:
             d = hid.device(self.vendorid, self.productid)
-            n = [0, 101] + map(ord, struct.pack('<I', corrected_freq))
+            n = [0, 101] + map(ord, struct.pack('<I', int(freq)))
             d.write(n)
             x = d.read(65)[0:6]
             d.close()
@@ -824,12 +824,15 @@ class PyFcdCtrl(object):
                     if re.match('^1\.0$', str(bl_query[3])):
                         raise Exception('Bias T not fitted - Wrong firmware version maybe?')
                     elif re.match('^1\.1$', str(bl_query[3])):
-                        if cond == 'enabled':
-                            n =  [0, 126, 1]
-                        elif cond == 'disabled':
-                            n = [0, 126, 0]
+                        if float(bl_query[1]) >= 10.08:
+                            if cond == 'enabled':
+                                n =  [0, 126, 1]
+                            elif cond == 'disabled':
+                                n = [0, 126, 0]
+                            else:
+                                raise Exception('Set bias malformed parameter!!')
                         else:
-                            raise Exception('Set bias malformed parameter!!')
+                            raise Exception('Wrong firmware version must be 10.08 or greater')
 
                         d = hid.device(self.vendorid, self.productid)
                         d.write(n)
