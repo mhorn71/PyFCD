@@ -123,6 +123,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^lin$', gainmode):
             gainmodeenum = 0
         elif re.match('^sen$', gainmode):
@@ -151,6 +154,9 @@ class PyFcdCtrl(object):
 
             returns True of False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^\-3\.0$', gain):
             gainoneenum = 0
         elif re.match('\+6\.0', gain):
@@ -179,6 +185,9 @@ class PyFcdCtrl(object):
 
             returns True of False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^\+0\.0$', gain):
             gaintwoenum = 0
         elif re.match('\+3\.0', gain):
@@ -211,6 +220,9 @@ class PyFcdCtrl(object):
 
             returns True of False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^\+0\.0$', gain):
             gainthreeenum = 0
         elif re.match('\+3\.0', gain):
@@ -243,6 +255,9 @@ class PyFcdCtrl(object):
 
             returns True of False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^\+0\.0$', gain):
             gainfourenum = 0
         elif re.match('\+1\.0', gain):
@@ -273,6 +288,9 @@ class PyFcdCtrl(object):
 
             returns True of False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^\+3\.0$', gain):
             gainfiveenum = 0
         elif re.match('\+6\.0', gain):
@@ -307,6 +325,9 @@ class PyFcdCtrl(object):
 
             returns True of False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^\+3\.0$', gain):
             gainsixenum = 0
         elif re.match('\+6\.0', gain):
@@ -341,6 +362,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^OFF$', lna_enhance):
             lnaenum = 0
         elif re.match('^0$', lna_enhance):
@@ -425,6 +449,8 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
 
         bandcenum = ['VHF2', 'VHF3', 'UHF', 'LBAND']
 
@@ -534,6 +560,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         biascenum = ['LBAND', '01', '10', 'VUBAND']
 
         biasenum = None
@@ -604,6 +633,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^27\.0$', if_rc_filter):
             ifrcfilterenum = 0
         elif re.match('^21\.0$', if_rc_filter):
@@ -660,6 +692,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         if re.match('^27\.0$', mixer_filter):
             mixerfilterenum = 0
         elif re.match('^4\.6$', mixer_filter):
@@ -731,7 +766,7 @@ class PyFcdCtrl(object):
             returns True or False
         """
 
-        if mode == 'FCDAPP':
+        if mode == 'FCDBL':
             try:
                 d = hid.device(self.vendorid, self.productid)
                 d.write([0, 8])
@@ -777,6 +812,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             n = [0, 108] + map(ord, struct.pack('h', phase)) + map(ord, struct.pack('H', (gain * 32768.0)))
@@ -797,6 +835,9 @@ class PyFcdCtrl(object):
 
             returns True or False
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             n = [0, 106] + map(ord, struct.pack('h', i)) + map(ord, struct.pack('h', (q * 32768.0)))
@@ -1000,6 +1041,8 @@ class PyFcdCtrl(object):
 
             VHF2, VHF3, UHF, LBAND
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
 
         try:
             d = hid.device(self.vendorid, self.productid)
@@ -1075,6 +1118,9 @@ class PyFcdCtrl(object):
 
             OFF, 0, 1, 2, 3
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 151])
@@ -1186,6 +1232,9 @@ class PyFcdCtrl(object):
 
             LBAND, 01, 10, VUBAND
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 155])
@@ -1214,6 +1263,9 @@ class PyFcdCtrl(object):
 
             27.0, 4.6, 4.2, 3.8, 3.4, 3.0, 2.7, 2.3 or 1.9
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 156])
@@ -1252,6 +1304,9 @@ class PyFcdCtrl(object):
 
             -3.0 or +6.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 157])
@@ -1276,6 +1331,9 @@ class PyFcdCtrl(object):
 
             +0.0, +3.0, +6.0 or +9.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 160])
@@ -1304,6 +1362,9 @@ class PyFcdCtrl(object):
 
             +0.0, +3.0, +6.0 or +9.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 161])
@@ -1332,6 +1393,9 @@ class PyFcdCtrl(object):
 
             +0.0, +1.0 or +2.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 163])
@@ -1358,6 +1422,9 @@ class PyFcdCtrl(object):
 
             +3.0, +6.0, +9.0, +12.0 or +15.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 164])
@@ -1388,6 +1455,9 @@ class PyFcdCtrl(object):
 
             +3.0, +6.0, +9.0, +12.0 or +15.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 165])
@@ -1418,6 +1488,9 @@ class PyFcdCtrl(object):
 
             lin or sen
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 158])
@@ -1442,6 +1515,9 @@ class PyFcdCtrl(object):
 
             21.4, 21.0, 17.6, 14.7, 12.4, 10.6, 9.0, 7.7, 6.4, 5.3, 4.4, 3.4, 2.6, 1.8, 1.2 or 1.0
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         rcfilter = ['21.4', '21.0', '17.6', '14.7', '12.4', '10.6', '9.0', '7.7', '6.4', '5.3', '4.4', '3.4', '2.6',
                     '1.8', '1.2', '1.0']
         try:
@@ -1486,6 +1562,9 @@ class PyFcdCtrl(object):
         """
             Returns phase correction followed by gain correction as tuple.
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 109])
@@ -1511,6 +1590,9 @@ class PyFcdCtrl(object):
         """
             Returns DC I correction followed by DC Q correction as float tuple.
        """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 107])
@@ -1536,6 +1618,9 @@ class PyFcdCtrl(object):
         """
         Returns an int -35dBm ~=0, -10dBm ~=70.
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 104])
@@ -1557,6 +1642,9 @@ class PyFcdCtrl(object):
         """
             Returns True if locked and False if unlocked.
         """
+        if self.proplus == True:
+            raise Exception('Not supported by proplus')
+
         try:
             d = hid.device(self.vendorid, self.productid)
             d.write([0, 105])
